@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ASUS\\NguyenNamSonBTH515\\NguyenNamSonBTH515.csproj": {}
+    "C:\\Users\\ASUS\\NguyenNamSonBTH0515\\NguyenNamSonBTH\\NguyenNamSonBTH515.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ASUS\\NguyenNamSonBTH515\\NguyenNamSonBTH515.csproj": {
+    "C:\\Users\\ASUS\\NguyenNamSonBTH0515\\NguyenNamSonBTH\\NguyenNamSonBTH515.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\NguyenNamSonBTH515\\NguyenNamSonBTH515.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\NguyenNamSonBTH0515\\NguyenNamSonBTH\\NguyenNamSonBTH515.csproj",
         "projectName": "NguyenNamSonBTH515",
-        "projectPath": "C:\\Users\\ASUS\\NguyenNamSonBTH515\\NguyenNamSonBTH515.csproj",
+        "projectPath": "C:\\Users\\ASUS\\NguyenNamSonBTH0515\\NguyenNamSonBTH\\NguyenNamSonBTH515.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\NguyenNamSonBTH515\\obj\\",
+        "outputPath": "C:\\Users\\ASUS\\NguyenNamSonBTH0515\\NguyenNamSonBTH\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -37,6 +37,26 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SQLite": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

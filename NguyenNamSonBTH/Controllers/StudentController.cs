@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NguyenNamSonBTH515.Models;
 using NguyenNamSonBTH515.Data;
+using NguyenNamSonBTH515.Models;
 
 namespace NguyenNamSonBTH515.Controllers
 {
@@ -22,7 +22,7 @@ namespace NguyenNamSonBTH515.Controllers
         // GET: Student
         public async Task<IActionResult> Index()
         {
-              return _context.Student != null ? 
+             return _context.Student != null ? 
                           View(await _context.Student.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Student'  is null.");
         }
@@ -56,12 +56,12 @@ namespace NguyenNamSonBTH515.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,StudentID,StudentName")] Student student)
+        public async Task<IActionResult> Create([Bind("ID,StudentID,StudentName,StudentAge")] Student student)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(student);
-                await _context.SaveChangesAsync();
+               await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
@@ -75,12 +75,12 @@ namespace NguyenNamSonBTH515.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student.FindAsync(id);
-            if (student == null)
+            var Student = await _context.Student.FindAsync(id);
+            if (Student == null)
             {
                 return NotFound();
             }
-            return View(student);
+            return View(Student);
         }
 
         // POST: Student/Edit/5
@@ -88,7 +88,7 @@ namespace NguyenNamSonBTH515.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(String id, [Bind("ID,StudentID,StudentName")] Student student)
+        public async Task<IActionResult> Edit(String id, [Bind("ID,StudentID,StudentName,StudentAge")] Student student)
         {
             if (id != student.ID)
             {

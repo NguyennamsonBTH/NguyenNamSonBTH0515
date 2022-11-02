@@ -9,6 +9,7 @@ namespace NguyenNamSonBTH515.Models
         
         public string? StudentName { get; set; }
         
-        
+        public string? StudentAge { get; set; }
+            
     }
 }

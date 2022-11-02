@@ -283,3 +283,7 @@ C:\Users\ASUS\NguyenNamSonBTH0515\NguyenNamSonBTH\obj\Debug\net6.0\refint\Nguyen
 C:\Users\ASUS\NguyenNamSonBTH0515\NguyenNamSonBTH\obj\Debug\net6.0\NguyenNamSonBTH515.pdb
 C:\Users\ASUS\NguyenNamSonBTH0515\NguyenNamSonBTH\obj\Debug\net6.0\NguyenNamSonBTH515.genruntimeconfig.cache
 C:\Users\ASUS\NguyenNamSonBTH0515\NguyenNamSonBTH\obj\Debug\net6.0\ref\NguyenNamSonBTH515.dll
+C:\Users\ASUS\NguyenNamSonBTH0515\NguyenNamSonBTH\bin\Debug\net6.0\EPPlus.dll
+C:\Users\ASUS\NguyenNamSonBTH0515\NguyenNamSonBTH\bin\Debug\net6.0\EPPlus.Interfaces.dll
+C:\Users\ASUS\NguyenNamSonBTH0515\NguyenNamSonBTH\bin\Debug\net6.0\EPPlus.System.Drawing.dll
+C:\Users\ASUS\NguyenNamSonBTH0515\NguyenNamSonBTH\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll

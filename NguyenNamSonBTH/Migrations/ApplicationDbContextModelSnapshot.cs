@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace HoangKimHuanBTH2.Migrations
+namespace NguyenNamSonBTH515.Migrations
 {
     [DbContext(typeof(ApplicationDbcontext))]
-    partial class ApplicationDbcontextModelSnapshot : ModelSnapshot
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -35,16 +35,16 @@ namespace HoangKimHuanBTH2.Migrations
 
             modelBuilder.Entity("NguyenNamSonBTH515.Models.Employee", b =>
                 {
-                    b.Property<string>("EmpID")
+                    b.Property<string>("ID")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Address")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EmpName")
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("EmpID");
+                    b.HasKey("ID");
 
                     b.ToTable("Employee");
                 });

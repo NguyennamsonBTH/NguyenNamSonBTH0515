@@ -1,3 +1,4 @@
+using System.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,68 +9,204 @@ using Microsoft.EntityFrameworkCore;
 using NguyenNamSonBTH515.Data;
 using NguyenNamSonBTH515.Models;
 using NguyenNamSonBTH515.Models.Process;
-using System.Diagnostics;
 
-namespace NguyenNamSonBTH515.Controllers;
 
-public class EmployeeController : Controller
+namespace NguyenNamSonBTH515.Controllers
 {
-    private readonly ILogger<EmployeeController> _logger;
-
-    private ExcelProcess _excelProcess = new ExcelProcess();
-
-    public EmployeeController(ILogger<EmployeeController> logger)
+    public class EmployeeController : Controller
     {
-        _logger = logger;
-    }
-    private readonly ApplicationDbcontext _context;
+        //Khai báo ApplicationDbContext
+        private readonly ApplicationDbcontext _context;
+        private ExcelProcess _excelProcess =new ExcelProcess();
 
         public EmployeeController(ApplicationDbcontext context)
         {
             _context = context;
         }
-    public async Task<IActionResult> Index()
+
+        // GET: Employee
+        // 
+        // Xây dựng action trả về danh sách employee 
+        public async Task<IActionResult> Index()
         {
-              return View(await _context.Employee.ToListAsync());
+              return _context.Employee != null ? 
+                          View(await _context.Employee.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.Employee'  is null.");
         }
 
-    private bool EmployeeExists(string id)
-    {
-            return _context.Employee.Any(e => e.EmpID == id);
-    }
-    public async Task<IActionResult> Upload()
+        // GET: Employee/Details/5
+        public async Task<IActionResult> Details(string id)
         {
-              return View();
+            if (id == null || _context.Employee == null)
+            {
+                return NotFound();
+            }
+
+            var employee = await _context.Employee
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            return View(employee);
         }
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Upload(IFormFile file)
+
+        // GET: Employee/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Employee/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ID, Name, Address")] Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(employee);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(employee);
+        }
+
+        // GET: Employee/Edit/5
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null || _context.Employee == null)
+            {
+                return NotFound();
+            }
+
+            var employee = await _context.Employee.FindAsync(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return View(employee);
+        }
+
+        // POST: Employee/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("ID, Name, Address")] Employee employee)
+        {
+            if (id != employee.ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(employee);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EmployeeExists(employee.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(employee);
+        }
+
+        // GET: Employee/Delete/5
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null || _context.Employee == null)
+            {
+                return NotFound();
+            }
+
+            var employee = await _context.Employee
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            return View(employee);
+        }
+
+        // POST: Employee/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            if (_context.Employee == null)
+            {
+                return Problem("Entity set 'ApplicationDbcontext.Employee'  is null.");
+            }
+            var employee = await _context.Employee.FindAsync(id);
+            if (employee != null)
+            {
+                _context.Employee.Remove(employee);
+            }
+            
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool EmployeeExists(string id)
+        {
+          return (_context.Employee?.Any(e => e.ID == id)).GetValueOrDefault();
+        }
+        ////////////
+        public async Task<IActionResult> Upload()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Upload(IFormFile file)
         {
             if(file!=null)
             {
-                string fileExtension = Path.GetExtension(file.FileName);
-                if(fileExtension != ".xls" && fileExtension != "xlsx")
+                string fileExtension =Path.GetExtension(file.FileName);
+                if (fileExtension != ".xls" && fileExtension != ".xlsx")
                 {
-                    ModelState.AddModelError("", "Please choose excel file to upload!:");
+                    ModelState.AddModelError("","Please choose excel file to upload!");
                 }
-                else
-                {
-                    //rename file when upload to server
-                    var fileName = DateTime.Now.ToShortTimeString() + fileExtension;
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory() + "./Uploads/Excels", fileName);
+                else{
+                    var FileName = DateTime.Now.ToShortDateString() + fileExtension;
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory()+ "/Uploads/Excels", FileName);
                     var fileLocation = new FileInfo(filePath).ToString();
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        // save file to server
+                        //save file to sever
                         await file.CopyToAsync(stream);
+                        var dt = _excelProcess.ExcelToDataTable(fileLocation);
+                        for (int i=0; i < dt.Rows.Count; i++)
+                        {
+                            var emp = new Employee();
+
+                            emp.ID=dt.Rows[i][0].ToString();
+                            emp.Name=dt.Rows[i][1].ToString();
+                            emp.Address=dt.Rows[i][2].ToString();
+                            //
+                            _context.Employee.Add(emp);
+                        }
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
                     }
                 }
             }
-              return View();
+            return View();
         }
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

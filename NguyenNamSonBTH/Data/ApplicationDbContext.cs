@@ -12,6 +12,7 @@ namespace NguyenNamSonBTH515.Data
         public ApplicationDbcontext (DbContextOptions<ApplicationDbcontext> options):base(options)
         {
         }
+        public DbSet<NguyenNamSonBTH515.Models.Faculty> Faculty {get; set;} =default!;
         public DbSet<NguyenNamSonBTH515.Models.Student> Student {get; set;} = default!;
         public DbSet<NguyenNamSonBTH515.Models.Customer>? Customer { get; set; }
         public DbSet<NguyenNamSonBTH515.Models.Person>? Person { get; set; }

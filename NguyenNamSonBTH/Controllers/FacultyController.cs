@@ -10,11 +10,11 @@ using NguyenNamSonBTH515.Data;
 
 namespace NguyenNamSonBTH515.Controllers
 {
-    public class StudentController : Controller
+    public class FacultyController : Controller
     {
         private readonly ApplicationDbcontext _context;
 
-        public StudentController (ApplicationDbcontext context)
+        public FacultyController (ApplicationDbcontext context)
         {
             _context = context;
         }
@@ -48,6 +48,7 @@ namespace NguyenNamSonBTH515.Controllers
         // GET: Student/Create
         public IActionResult Create()
         {
+            ViewData["FacultyID"] = new SelectList(_context.Faculty, "FacultyID","FacultyID");
             return View();
         }
 
@@ -56,7 +57,7 @@ namespace NguyenNamSonBTH515.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,StudentID,StudentName")] Student student)
+        public async Task<IActionResult> Create([Bind("FacultyID,StudentID,StudentName")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +65,7 @@ namespace NguyenNamSonBTH515.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FacultyID"] = new SelectList(_context.Faculty,"FacultyID","FacultyID", student.FacultyID);
             return View(student);
         }
 
